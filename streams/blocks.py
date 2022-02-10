@@ -1,9 +1,13 @@
 """Streamfields live in here."""
 
 from asyncio import streams
+from cProfile import label
+from cgitb import text
+from email.policy import default
 from importlib.metadata import requires
 from msilib.schema import Icon
 from re import template
+from turtle import title
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
@@ -66,3 +70,19 @@ class SimpleRichTextBlock(blocks.RichTextBlock):
         template = "streams/richtext_block.html"
         icon = "edit"
         label = "Simple RichText"
+
+
+class CTABlock(blocks.StructBlock):
+    """A simple call to action section."""
+
+    title = blocks.CharBlock(required=True, max_length=60)
+    text = blocks.RichTextBlock(required=True, features=["bold", "italic"])
+    button_page = blocks.PageChooserBlock(required=False)
+    button_url = blocks.URLBlock(required=False)
+    button_text = blocks.CharBlock(
+        required=True, default='Learn More', max_length=40)
+
+    class Meta:
+        template = "Streams/cta_block.html"
+        icon = "placeholder"
+        label = " Call to Action"
